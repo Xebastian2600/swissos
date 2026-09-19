@@ -40,7 +40,7 @@ module('Integration | Component | onboarding/form', function (hooks) {
     });
 
     test('it renders the brand logo when a brand is supplied', async function (assert) {
-        await render(hbs`<Onboarding::Form @brand={{hash logo_url="/images/swissos-logo-svg.svg"}} />`);
+        await render(hbs`<Onboarding::Form @brand={{hash logo_url="/images/swissos-logo.png"}} />`);
 
         assert.dom('img').exists('the brand logo renders');
     });
