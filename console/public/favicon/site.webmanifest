@@ -1,0 +1,7 @@
+{
+    "name": "SwissOS Console",
+    "short_name": "SwissOS",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}
