@@ -42,7 +42,18 @@ export default class InstallationService extends Service {
                 };
             }
 
-            throw error;
+            // The onboarding check itself couldn't be completed (API unreachable,
+            // timed out, misconfigured host, etc). This is distinct from the API
+            // explicitly telling us the app isn't configured, so don't rethrow here:
+            // an uncaught rejection at this point aborts the `auth.login` transition
+            // with no error substate to catch it, leaving the entire app blank.
+            // Fall back to the normal login screen instead.
+            console.warn('[Installation] Unable to determine onboarding status:', error);
+
+            return {
+                notConfigured: false,
+                shouldOnboard: false,
+            };
         }
     }
 
@@ -66,7 +77,13 @@ export default class InstallationService extends Service {
                 return false;
             }
 
-            throw error;
+            // Same reasoning as checkOnboarding(): a network-level failure here isn't
+            // the API telling us we're unconfigured, and rethrowing would crash the
+            // `install` route transition with no error substate to catch it. Stay put
+            // on the install screen instead of blanking the app.
+            console.warn('[Installation] Unable to determine onboarding status:', error);
+
+            return false;
         }
     }
 
